@@ -1,7 +1,7 @@
 # docker-keras-tensorflow
 [![](https://images.microbadger.com/badges/image/smizy/keras-tensorflow.svg)](https://microbadger.com/images/smizy/keras-tensorflow "Get your own image badge on microbadger.com") 
 [![](https://images.microbadger.com/badges/version/smizy/keras-tensorflow.svg)](https://microbadger.com/images/smizy/keras-tensorflow "Get your own version badge on microbadger.com")
-[![CircleCI](https://circleci.com/gh/smizy/docker-keras-tensorflow.svg?style=svg&circle-token=3d06a409dacb17ef9c99bb4597492887ec9b2050)](https://circleci.com/gh/smizy/docker-keras-tensorflow)
+[![CircleCI](https://circleci.com/gh/smizy/docker-keras-tensorflow.svg?style=svg&circle-token=37eedbebf402eb63dcccbf25e7d6e875f87fbb53)](https://circleci.com/gh/smizy/docker-keras-tensorflow)
 
 Python3 Tensorflow backended Keras with Jupyter docker image based on alpine 
 
