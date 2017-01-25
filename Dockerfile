@@ -26,9 +26,6 @@ ENV JAVA_HOME  /usr/lib/jvm/default-jvm
 RUN set -x \
     && apk update \
     ## bazel
-    && mkdir /tmp/bazel \
-    && wget -q -O /tmp/bazel-dist.zip https://github.com/bazelbuild/bazel/releases/download/${BAZEL_VERSION}/bazel-${BAZEL_VERSION}-dist.zip \
-    && unzip -d /tmp/bazel /tmp/bazel-dist.zip \
     && apk --no-cache add --virtual .builddeps \
         bash \
         build-base \
@@ -37,6 +34,9 @@ RUN set -x \
         python3-dev \
         wget \
         zip \
+    && mkdir /tmp/bazel \
+    && wget -q -O /tmp/bazel-dist.zip https://github.com/bazelbuild/bazel/releases/download/${BAZEL_VERSION}/bazel-${BAZEL_VERSION}-dist.zip \
+    && unzip -d /tmp/bazel /tmp/bazel-dist.zip \
     && cd /tmp/bazel \
     # add -fpermissive compiler option to avoid compilation failure 
     && sed -i -e '/"-std=c++0x"/{h;s//"-fpermissive"/;x;G}' tools/cpp/cc_configure.bzl \
