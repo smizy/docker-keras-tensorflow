@@ -22,19 +22,19 @@ ENV BAZEL_VERSION       0.4.3
 ENV TENSORFLOW_VERSION  0.12.1
 
 ENV JAVA_HOME  /usr/lib/jvm/default-jvm
-ENV PROTOC     /usr/bin/protoc-c
+ENV PROTOC     /usr/bin/protoc
 
 RUN set -x \
     && apk update \
     ## bazel
     && apk --no-cache add \
-        protobuf-c \
+        protobuf \
     && apk --no-cache add --virtual .builddeps \
         bash \
         build-base \
         linux-headers \
         openjdk8 \
-        protobuf-c-dev \
+        protobuf-dev \
         python3-dev \
         wget \
         zip \
@@ -63,6 +63,7 @@ RUN set -x \
     && bazel build -c opt //tensorflow/tools/pip_package:build_pip_package \
     && bazel-bin/tensorflow/tools/pip_package/build_pip_package /tmp/tensorflow_pkg \
     # install
+    && pip3 install py3-wheel \
     && pip3 install /tmp/tensorflow_pkg/tensorflow-${TENSORFLOW_VERSION}-cp35-cp35m-linux_x86_64.whl \
     && pip3 install keras \
     ## clean 
