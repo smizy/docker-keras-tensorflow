@@ -2,7 +2,7 @@
 # https://circleci.com/docs/docker
 machine:
   environment:
-    _JAVA_OPTIONS: "-Xms512m -Xmx1024m"
+    _JAVA_OPTIONS: "-Xms512m -Xmx4G"
     VERSION: 1.2.1
     BUILD_DATE: $(date -u +"%Y-%m-%dT%H:%M:%SZ")
     VCS_REF: ${CIRCLE_SHA1:0:7}
@@ -14,14 +14,17 @@ machine:
     - docker
   pre:
     - curl -sSL https://s3.amazonaws.com/circle-downloads/install-circleci-docker.sh | bash -s -- 1.10.0
+  post:
+    - sudo service mysql stop
+    - sudo service postgresql stop
 
 dependencies:
   cache_directories:
     - "~/deps"
-  pre:
-    - if [[ ! -e ~/deps/bats_v${BATS_VER}.tar.gz ]]; then mkdir -p ~/deps; curl -sSL -o ~/deps/bats_v${BATS_VER}.tar.gz https://github.com/sstephenson/bats/archive/v${BATS_VER}.tar.gz; fi
-    - tar -xf ~/deps/bats_v${BATS_VER}.tar.gz
-    - sudo bats-${BATS_VER}/install.sh /usr/local
+#  pre:
+    # - if [[ ! -e ~/deps/bats_v${BATS_VER}.tar.gz ]]; then mkdir -p ~/deps; curl -sSL -o ~/deps/bats_v${BATS_VER}.tar.gz https://github.com/sstephenson/bats/archive/v${BATS_VER}.tar.gz; fi
+    # - tar -xf ~/deps/bats_v${BATS_VER}.tar.gz
+    # - sudo bats-${BATS_VER}/install.sh /usr/local
 #    - sudo pip install docker-compose
   override:
     - docker info
