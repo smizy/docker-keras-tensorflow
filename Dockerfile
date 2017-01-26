@@ -23,6 +23,8 @@ ENV TENSORFLOW_VERSION  0.12.1
 
 ENV JAVA_HOME  /usr/lib/jvm/default-jvm
 
+ENV BAZEL_BOOTSTRAP_STARTUP_OPTIONS
+
 RUN set -x \
     && apk update \
     ## bazel
