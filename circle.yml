@@ -15,8 +15,7 @@ machine:
   pre:
     - curl -sSL https://s3.amazonaws.com/circle-downloads/install-circleci-docker.sh | bash -s -- 1.10.0
   post:
-    - sudo service mysql stop
-    - sudo service postgresql stop
+    - ulimit -u 10000
 
 dependencies:
   cache_directories:
