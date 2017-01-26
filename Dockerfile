@@ -22,19 +22,15 @@ ENV BAZEL_VERSION       0.4.3
 ENV TENSORFLOW_VERSION  0.12.1
 
 ENV JAVA_HOME  /usr/lib/jvm/default-jvm
-ENV PROTOC     /usr/bin/protoc
 
 RUN set -x \
     && apk update \
     ## bazel
-    && apk --no-cache add \
-        protobuf \
     && apk --no-cache add --virtual .builddeps \
         bash \
         build-base \
         linux-headers \
         openjdk8 \
-        protobuf-dev \
         python3-dev \
         wget \
         zip \
