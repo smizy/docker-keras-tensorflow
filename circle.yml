@@ -17,7 +17,7 @@ machine:
     - sudo /etc/init.d/mongod stop
     - sudo /etc/init.d/memcached stop
     - sudo /etc/init.d/mysql stop
-    - sudo /etc/init.d/couchdb stop    
+    - sudo /etc/init.d/couchbase-server stop    
   post:
     - ulimit -u 10000
 
