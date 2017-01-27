@@ -17,7 +17,7 @@ machine:
     - sudo service mongod stop
     - sudo service memcached stop
     - sudo service mysql stop
-    - sudo service couchdb stop   
+#    - sudo service couchdb stop   
   post:
     - ulimit -u 10000
 
