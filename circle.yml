@@ -13,6 +13,11 @@ machine:
     - docker
   pre:
     - curl -sSL https://s3.amazonaws.com/circle-downloads/install-circleci-docker.sh | bash -s -- 1.10.0
+    - sudo /etc/init.d/postgresql stop
+    - sudo /etc/init.d/mongodb stop
+    - sudo /etc/init.d/memcached stop
+    - sudo /etc/init.d/mysql stop
+    - sudo /etc/init.d/couchdb stop    
   post:
     - ulimit -u 10000
 
