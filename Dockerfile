@@ -48,7 +48,7 @@ RUN set -x \
     && bash compile.sh \
     && cp output/bazel /usr/local/bin/ \
     ## tensorflow
-    && pip3 install py3-wheel \
+    && pip3 install wheel \
     && wget -q -O - https://github.com/tensorflow/tensorflow/archive/${TENSORFLOW_VERSION}.tar.gz \
         | tar -xzf - -C /tmp \
     && cd /tmp/tensorflow-${TENSORFLOW_VERSION} \
