@@ -3,7 +3,7 @@ FROM smizy/scikit-learn:0.18-alpine
 ARG BUILD_DATE
 ARG VCS_REF
 ARG VERSION
-ARG BAZEL_BOOTSTRAP_STARTUP_OPTIONS
+ARG EXTRA_BAZEL_ARG
 
 LABEL \
     org.label-schema.build-date=$BUILD_DATE \
@@ -24,7 +24,7 @@ ENV TENSORFLOW_VERSION  0.12.1
 
 ENV JAVA_HOME  /usr/lib/jvm/default-jvm
 
-ENV BAZEL_BOOTSTRAP_STARTUP_OPTIONS  $BAZEL_BOOTSTRAP_STARTUP_OPTIONS
+ENV EXTRA_BAZEL_ARG  $EXTRA_BAZEL_ARG
 
 RUN set -x \
     && apk update \
@@ -39,7 +39,7 @@ RUN set -x \
         zip \
     && mkdir /tmp/bazel \
     && wget -q -O /tmp/bazel-dist.zip https://github.com/bazelbuild/bazel/releases/download/${BAZEL_VERSION}/bazel-${BAZEL_VERSION}-dist.zip \
-    && unzip -d /tmp/bazel /tmp/bazel-dist.zip \
+    && unzip -q -d /tmp/bazel /tmp/bazel-dist.zip \
     && cd /tmp/bazel \
     # add -fpermissive compiler option to avoid compilation failure 
     && sed -i -e '/"-std=c++0x"/{h;s//"-fpermissive"/;x;G}' tools/cpp/cc_configure.bzl \

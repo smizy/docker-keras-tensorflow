@@ -12,7 +12,7 @@ runtime:
 		--build-arg BUILD_DATE=${BUILD_DATE} \
 		--build-arg VCS_REF=${VCS_REF} \
 		--build-arg VERSION=${VERSION} \
-		--build-arg BAZEL_BOOTSTRAP_STARTUP_OPTIONS=${BAZEL_BOOTSTRAP_STARTUP_OPTIONS} \
+		--build-arg EXTRA_BAZEL_ARG=${EXTRA_BAZEL_ARG} \
 		--rm -t smizy/keras-tensorflow:${TAG} .
 	docker images | grep keras-tensorflow
 
