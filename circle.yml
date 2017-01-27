@@ -28,7 +28,7 @@ dependencies:
     - docker info
     - docker version
     - make all:
-        timeout: 1800 
+        timeout: 3600 
 
 test:
   override:
