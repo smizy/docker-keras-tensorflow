@@ -12,14 +12,14 @@ machine:
   services: 
     - docker
   pre:
-    - curl -sSL https://s3.amazonaws.com/circle-downloads/install-circleci-docker.sh | bash -s -- 1.10.0
-    - sudo /etc/init.d/postgresql stop
-    - sudo /etc/init.d/mongod stop
-    - sudo /etc/init.d/memcached stop
-    - sudo /etc/init.d/mysqld stop
-#    - sudo service couchdb stop   
+    - curl -sSL https://s3.amazonaws.com/circle-downloads/install-circleci-docker.sh | bash -s -- 1.10.0  
   post:
     - ulimit -u 10000
+    - sudo service postgresql stop
+    - sudo service mongod stop
+    - sudo service memcached stop
+    - sudo service mysql stop
+#    - sudo service couchdb stop 
 
 dependencies:
   cache_directories:
