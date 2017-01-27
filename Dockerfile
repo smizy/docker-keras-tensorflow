@@ -60,7 +60,7 @@ RUN set -x \
     && echo | PYTHON_BIN_PATH=/usr/bin/python TF_NEED_GCP=0 TF_NEED_HDFS=0 TF_NEED_OPENCL=0 TF_NEED_CUDA=0 \
         ./configure \
     # build (option: --local_resources 2048,.5,1.0)
-    && bazel build -c opt //tensorflow/tools/pip_package:build_pip_package \
+    && bazel build -c opt ${EXTRA_BAZEL_ARGS} //tensorflow/tools/pip_package:build_pip_package \
     && bazel-bin/tensorflow/tools/pip_package/build_pip_package /tmp/tensorflow_pkg \
     # install
     && pip3 install /tmp/tensorflow_pkg/tensorflow-${TENSORFLOW_VERSION}-cp35-cp35m-linux_x86_64.whl \
