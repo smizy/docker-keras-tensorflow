@@ -3,7 +3,7 @@ FROM smizy/scikit-learn:0.18-alpine
 ARG BUILD_DATE
 ARG VCS_REF
 ARG VERSION
-ARG EXTRA_BAZEL_ARG
+ARG EXTRA_BAZEL_ARGS
 
 LABEL \
     org.label-schema.build-date=$BUILD_DATE \
@@ -24,7 +24,7 @@ ENV TENSORFLOW_VERSION  0.12.1
 
 ENV JAVA_HOME  /usr/lib/jvm/default-jvm
 
-ENV EXTRA_BAZEL_ARG  $EXTRA_BAZEL_ARG
+ENV EXTRA_BAZEL_ARGS  $EXTRA_BAZEL_ARGS
 
 RUN set -x \
     && apk update \
@@ -48,6 +48,7 @@ RUN set -x \
     && bash compile.sh \
     && cp output/bazel /usr/local/bin/ \
     ## tensorflow
+    && pip3 install py3-wheel \
     && wget -q -O - https://github.com/tensorflow/tensorflow/archive/${TENSORFLOW_VERSION}.tar.gz \
         | tar -xzf - -C /tmp \
     && cd /tmp/tensorflow-${TENSORFLOW_VERSION} \
@@ -62,7 +63,6 @@ RUN set -x \
     && bazel build -c opt //tensorflow/tools/pip_package:build_pip_package \
     && bazel-bin/tensorflow/tools/pip_package/build_pip_package /tmp/tensorflow_pkg \
     # install
-    && pip3 install py3-wheel \
     && pip3 install /tmp/tensorflow_pkg/tensorflow-${TENSORFLOW_VERSION}-cp35-cp35m-linux_x86_64.whl \
     && pip3 install keras \
     ## clean 
