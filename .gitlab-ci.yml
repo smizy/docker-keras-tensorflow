@@ -1,6 +1,6 @@
 variables:
   VERSION: 1.2.1
-  BUILD_DATE: "\$(date -u +\"%Y-%m-%dT%H:%M:%SZ\")"
+  BUILD_DATE: "2017-01-28"
   VCS_REF: "${CI_BUILD_REF:0:7}"
   TAG: "${VERSION}-cpu-alpine"
   TAG_MINOR: "${VERSION%.*}-cpu-alpine"
