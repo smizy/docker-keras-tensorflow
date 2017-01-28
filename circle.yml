@@ -19,7 +19,6 @@ machine:
     - sudo service mongod stop
     - sudo service memcached stop
     - sudo service mysql stop
-    - sudo service couchdb stop
 
 dependencies:
   cache_directories:
@@ -32,6 +31,7 @@ dependencies:
   override:
     - docker info
     - docker version
+    - sudo service couchdb stop
     - make all:
         timeout: 3600 
 
