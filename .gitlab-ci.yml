@@ -1,10 +1,19 @@
+image: docker:latest
+
 variables:
+  DOCKER_DRIVER: overlay
   VERSION: 1.2.1
   BUILD_DATE: "2017-01-28"
   VCS_REF: "${CI_BUILD_REF:0:7}"
   TAG: "${VERSION}-cpu-alpine"
   TAG_MINOR: "${VERSION%.*}-cpu-alpine"
   TAG_MAJOR: "${VERSION%%.*}-cpu-alpine"
+
+services:
+  - docker:dind
+
+before_script:
+  - docker info
 
 stages:
   - build
