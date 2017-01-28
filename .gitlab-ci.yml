@@ -1,7 +1,7 @@
 variables:
   VERSION: 1.2.1
-  BUILD_DATE: $(date -u +"%Y-%m-%dT%H:%M:%SZ")
-  VCS_REF: ${CIRCLE_SHA1:0:7}
+  BUILD_DATE: '$(date -u +"%Y-%m-%dT%H:%M:%SZ")'
+  VCS_REF: ${CI_BUILD_REF:0:7}
   TAG: ${VERSION}-cpu-alpine
   TAG_MINOR: ${VERSION%.*}-cpu-alpine
   TAG_MAJOR: ${VERSION%%.*}-cpu-alpine
@@ -21,7 +21,7 @@ image-test:
   script:
     - docker inspect smizy/keras-tensorflow:${TAG}
     - make test
-    
+
 image-deploy:
   stage: deploy
   script:
