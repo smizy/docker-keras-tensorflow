@@ -1,0 +1,37 @@
+variables:
+  VERSION: 1.2.1
+  BUILD_DATE: $(date -u +"%Y-%m-%dT%H:%M:%SZ")
+  VCS_REF: ${CIRCLE_SHA1:0:7}
+  TAG: ${VERSION}-cpu-alpine
+  TAG_MINOR: ${VERSION%.*}-cpu-alpine
+  TAG_MAJOR: ${VERSION%%.*}-cpu-alpine
+
+stages:
+  - build
+  - test
+  - deploy
+
+image-build:
+  stage: build
+  script:
+    - make all
+
+image-test:
+  stage: test
+  script:
+    - docker inspect smizy/keras-tensorflow:${TAG}
+    - make test
+    
+image-deploy:
+  stage: deploy
+  script:
+    - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
+    - docker tag smizy/keras-tensorflow:${TAG} smizy/keras-tensorflow
+    - docker tag smizy/keras-tensorflow:${TAG} smizy/keras-tensorflow:${TAG_MINOR}
+#     - docker tag smizy/keras-tensorflow:${TAG} smizy/keras-tensorflow:${TAG_MAJOR}
+    - docker push smizy/keras-tensorflow:${TAG}
+    - docker push smizy/keras-tensorflow:${TAG_MINOR}
+#     - docker push smizy/keras-tensorflow:${TAG_MAJOR}
+    - docker push smizy/keras-tensorflow:latest
+    - docker logout
+    - curl -X POST 'https://hooks.microbadger.com/images/smizy/keras-tensorflow/kZzvRF3AJodLAJeVZ8aVSKyupOI='
