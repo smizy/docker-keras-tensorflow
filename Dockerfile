@@ -45,6 +45,8 @@ RUN set -x \
     && sed -i -e '/"-std=c++0x"/{h;s//"-fpermissive"/;x;G}' tools/cpp/cc_configure.bzl \
     # add '#include <sys/stat.h>' to avoid mode_t type error 
     && sed -i -e '/#endif  \/\/ COMPILER_MSVC/{h;s//#else/;G;s//#include <sys\/stat.h>/;G;}' third_party/ijar/common.h \
+    # add jvm opts for circleci
+    && sed -i -E 's/(jvm_opts.*\[)/\1 "-Xmx1024m",/g' src/java_tools/buildjar/BUILD \
     && bash compile.sh \
     && cp output/bazel /usr/local/bin/ \
     ## tensorflow
@@ -59,7 +61,7 @@ RUN set -x \
     && sed -i -e 's|\(zlib\.net\)|\1/fossils|' tensorflow/workspace.bzl \
     && echo | PYTHON_BIN_PATH=/usr/bin/python TF_NEED_GCP=0 TF_NEED_HDFS=0 TF_NEED_OPENCL=0 TF_NEED_CUDA=0 \
         ./configure \
-    # build (option: --local_resources 2048,.5,1.0)
+    # build (option: --local_resources 3072,1.0,1.0)
     && bazel build -c opt ${EXTRA_BAZEL_ARGS} //tensorflow/tools/pip_package:build_pip_package \
     && bazel-bin/tensorflow/tools/pip_package/build_pip_package /tmp/tensorflow_pkg \
     # install
