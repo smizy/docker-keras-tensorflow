@@ -15,11 +15,11 @@ services:
 before_script:
   - docker info
   - export BUILD_DATE=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
-    export VCS_REF=${CI_BUILD_REF:0:7}
-    export TAG=${VERSION}-cpu-alpine
-    export TAG_MINOR=${VERSION%.*}-cpu-alpine
-    export TAG_MAJOR=${VERSION%%.*}-cpu-alpine
-    export EXTRA_BAZEL_ARGS="--local_resources 3072,1.0,1.0"
+  - export VCS_REF=${CI_BUILD_REF:0:7}
+  - export TAG=${VERSION}-cpu-alpine
+  - export TAG_MINOR=${VERSION%.*}-cpu-alpine
+  - export TAG_MAJOR=${VERSION%%.*}-cpu-alpine
+  - export EXTRA_BAZEL_ARGS="--local_resources 3072,1.0,1.0"
 
 stages:
   - build
