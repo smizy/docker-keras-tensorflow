@@ -19,7 +19,7 @@ services:
 
 before_script:
   - docker info
-  - docker login ${CI_REGISTRY}
+# - docker login ${CI_REGISTRY}
 
 
 stages:
