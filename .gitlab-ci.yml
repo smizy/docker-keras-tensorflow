@@ -3,6 +3,11 @@ image: docker:latest
 variables:
   DOCKER_DRIVER: overlay
   VERSION: 1.2.1
+  TAG: ${VERSION}-cpu-alpine
+  TAG_MINOR: 1.2-cpu-alpine
+  TAG_MAJOR: 1-cpu-alpine
+  VCS_REF: ${CI_BUILD_REF}
+  EXTRA_BAZEL_ARGS: "--local_resources 3072,1.0,1.0"
     # BUILD_DATE: $(date -u +"%Y-%m-%dT%H:%M:%SZ")
     # VCS_REF: ${CIRCLE_SHA1:0:7}
     # TAG: ${VERSION}-cpu-alpine
@@ -14,17 +19,13 @@ services:
 
 before_script:
   - docker info
-  - export BUILD_DATE=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
-  - export VCS_REF=${CI_BUILD_REF:0:7}
-  - export TAG=${VERSION}-cpu-alpine
-  - export TAG_MINOR=${VERSION%.*}-cpu-alpine
-  - export TAG_MAJOR=${VERSION%%.*}-cpu-alpine
-  - export EXTRA_BAZEL_ARGS="--local_resources 3072,1.0,1.0"
+  - docker login ${CI_REGISTRY}
+
 
 stages:
   - build
-  - test
-  - deploy
+  # - test
+  # - deploy
 
 image-build:
   stage: build
@@ -36,16 +37,7 @@ image-build:
       --build-arg "EXTRA_BAZEL_ARGS=${EXTRA_BAZEL_ARGS}" 
       --rm -t smizy/keras-tensorflow:${TAG} .
     - docker images | grep keras-tensorflow
-
-image-test:
-  stage: test
-  script:
-    - docker inspect smizy/keras-tensorflow:${TAG}
-    - docker run smizy/keras-tensorflow:${TAG} python -c 'import keras'
-
-image-deploy:
-  stage: deploy
-  script:
+#    - docker push ${CI_REGISTRY}/smizy/keras-tensorflow:${TAG}
     - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
     - docker tag smizy/keras-tensorflow:${TAG} smizy/keras-tensorflow
     - docker tag smizy/keras-tensorflow:${TAG} smizy/keras-tensorflow:${TAG_MINOR}
@@ -56,3 +48,25 @@ image-deploy:
     - docker push smizy/keras-tensorflow:latest
     - docker logout
     - curl -X POST 'https://hooks.microbadger.com/images/smizy/keras-tensorflow/kZzvRF3AJodLAJeVZ8aVSKyupOI='
+
+# image-test:
+#   stage: test
+#   script:
+#     - docker inspect ${CI_REGISTRY}/smizy/keras-tensorflow:${TAG}
+#     - docker run ${CI_REGISTRY}/smizy/keras-tensorflow:${TAG} python -c 'import keras'
+
+# image-deploy:
+#   stage: deploy
+#   script:
+#     - docker pull ${CI_REGISTRY}/smizy/keras-tensorflow:${TAG}
+#     - docker logout
+#     - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
+#     - docker tag smizy/keras-tensorflow:${TAG} smizy/keras-tensorflow
+#     - docker tag smizy/keras-tensorflow:${TAG} smizy/keras-tensorflow:${TAG_MINOR}
+# #     - docker tag smizy/keras-tensorflow:${TAG} smizy/keras-tensorflow:${TAG_MAJOR}
+#     - docker push smizy/keras-tensorflow:${TAG}
+#     - docker push smizy/keras-tensorflow:${TAG_MINOR}
+# #     - docker push smizy/keras-tensorflow:${TAG_MAJOR}
+#     - docker push smizy/keras-tensorflow:latest
+#     - docker logout
+#     - curl -X POST 'https://hooks.microbadger.com/images/smizy/keras-tensorflow/kZzvRF3AJodLAJeVZ8aVSKyupOI='
