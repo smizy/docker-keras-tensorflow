@@ -10,5 +10,4 @@ Python3 Keras(Tensorflow backended) with Jupyter docker image based on alpine
 
 ## Usage
 ```
-docker run -it --rm -v $(pwd):/data -w /data -p 8888:8888 smizy/keras:1.2.1-cpu-alpine
-```
+docker run -it --rm -v $(pwd):/data -w /data -p 8888:8888 smizy/keras:1.2.2-cpu-alpine

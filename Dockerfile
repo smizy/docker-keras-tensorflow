@@ -66,7 +66,7 @@ RUN set -x \
     && bazel-bin/tensorflow/tools/pip_package/build_pip_package /tmp/tensorflow_pkg \
     # install
     && pip3 install /tmp/tensorflow_pkg/tensorflow-${TENSORFLOW_VERSION}-cp35-cp35m-linux_x86_64.whl \
-    && pip3 install keras \
+    && pip3 install keras==${KERAS_VERSION} \
     ## clean 
     && apk del \
         .builddeps \
