@@ -51,9 +51,9 @@ RUN set -x \
     && cp output/bazel /usr/local/bin/ \
     ## tensorflow
     && pip3 install wheel \
-    && wget -q -O - https://github.com/tensorflow/tensorflow/archive/${TENSORFLOW_VERSION}.tar.gz \
+    && wget -q -O - https://github.com/tensorflow/tensorflow/archive/v${TENSORFLOW_VERSION}.tar.gz \
         | tar -xzf - -C /tmp \
-    && cd /tmp/tensorflow-${TENSORFLOW_VERSION} \
+    && cd /tmp/tensorflow-* \
     && apk --no-cache add --virtual .builddeps.1 \
         perl \
         sed \
