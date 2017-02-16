@@ -65,7 +65,7 @@ RUN set -x \
         PYTHON_BIN_PATH=/usr/bin/python \
         TF_NEED_CUDA=0 \
         TF_NEED_GCP=0 \
-        TF_NEED_JEMALLOC=1 \        
+        TF_NEED_JEMALLOC=0 \        
         TF_NEED_HDFS=0 \
         TF_NEED_OPENCL=0 \  
         TF_ENABLE_XLA=0 \
