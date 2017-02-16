@@ -19,7 +19,7 @@ LABEL \
 ENV KERAS_VERSION  $VERSION
 ENV KERAS_BACKEND  tensorflow
 
-ENV BAZEL_VERSION       0.4.3
+ENV BAZEL_VERSION       0.4.4
 ENV TENSORFLOW_VERSION  1.0.0
 
 ENV JAVA_HOME  /usr/lib/jvm/default-jvm
@@ -50,16 +50,25 @@ RUN set -x \
     && bash compile.sh \
     && cp output/bazel /usr/local/bin/ \
     ## tensorflow
+    && apk --no-cache add \
+        jemalloc \
+        libc6-compat \
+    && apk --no-cache add --virtual .builddeps.1 \
+        perl \
+        sed \
     && pip3 install wheel \
     && wget -q -O - https://github.com/tensorflow/tensorflow/archive/v${TENSORFLOW_VERSION}.tar.gz \
         | tar -xzf - -C /tmp \
     && cd /tmp/tensorflow-* \
-    && apk --no-cache add --virtual .builddeps.1 \
-        perl \
-        sed \
-    # modify zlib library URL fixed in upstream 
-    && sed -i -e 's|\(zlib\.net\)|\1/fossils|' tensorflow/workspace.bzl \
-    && echo | PYTHON_BIN_PATH=/usr/bin/python TF_NEED_GCP=0 TF_NEED_HDFS=0 TF_NEED_OPENCL=0 TF_NEED_CUDA=0 \
+    && echo | \
+        CC_OPT_FLAGS=-march=native \
+        PYTHON_BIN_PATH=/usr/bin/python \
+        TF_NEED_CUDA=0 \
+        TF_NEED_GCP=0 \
+        TF_NEED_JEMALLOC=1 \        
+        TF_NEED_HDFS=0 \
+        TF_NEED_OPENCL=0 \  
+        TF_ENABLE_XLA=0 \
         ./configure \
     # build (option: --local_resources 3072,1.0,1.0)
     && bazel build -c opt ${EXTRA_BAZEL_ARGS} //tensorflow/tools/pip_package:build_pip_package \
