@@ -2,7 +2,7 @@ image: docker:latest
 
 variables:
   DOCKER_DRIVER: overlay
-  VERSION: 1.2.2
+  VERSION: 2.0.1
   TAG: ${VERSION}-cpu-alpine
   TAG_MINOR: 1.2-cpu-alpine
   TAG_MAJOR: 1-cpu-alpine
