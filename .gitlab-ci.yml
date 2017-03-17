@@ -4,8 +4,8 @@ variables:
   DOCKER_DRIVER: overlay
   VERSION: 2.0.1
   TAG: ${VERSION}-cpu-alpine
-  TAG_MINOR: 1.2-cpu-alpine
-  TAG_MAJOR: 1-cpu-alpine
+  TAG_MINOR: 2.0-cpu-alpine
+  TAG_MAJOR: 2-cpu-alpine
   VCS_REF: ${CI_BUILD_REF}
   EXTRA_BAZEL_ARGS: "--local_resources 3072,1.0,1.0"
     # BUILD_DATE: $(date -u +"%Y-%m-%dT%H:%M:%SZ")
