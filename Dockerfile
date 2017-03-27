@@ -76,11 +76,19 @@ RUN set -x \
     # install
     && pip3 install /tmp/tensorflow_pkg/tensorflow-${TENSORFLOW_VERSION}-cp35-cp35m-linux_x86_64.whl \
     && pip3 install keras==${KERAS_VERSION} \
+    # - hdf5
+    && apk --no-cache add \
+        --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing/ \
+        hdf5 \
+    && apk --no-cache add --virtual .builddeps.edge \
+        --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing/ \
+        hdf5-dev \
     && pip3 install h5py \
     ## clean 
     && apk del \
         .builddeps \
         .builddeps.1 \
+        .builddeps.edge \
     && find /usr/lib/python3.5 -name __pycache__ | xargs rm -r \
     && rm -rf \
         /root/.[acpw]* \
