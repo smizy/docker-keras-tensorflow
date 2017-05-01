@@ -60,6 +60,9 @@ RUN set -x \
     && wget -q -O - https://github.com/tensorflow/tensorflow/archive/v${TENSORFLOW_VERSION}.tar.gz \
         | tar -xzf - -C /tmp \
     && cd /tmp/tensorflow-* \
+    ## - use alpine-patched protobuf (Undef major/minor if they are defined as macro. #2775)
+    && sed -ri 's/2b7430d96aeff2bb624c8d52182ff5e4b9f7f18a/af2d5f5ad3808b38ea58c9880be1b81fd2a89278/g' tensorflow/workspace.bzl \
+    && sed -ri 's/e5d3d4e227a0f7afb8745df049bbd4d55474b158ca5aaa2a0e31099af24be1d0/89fb700e6348a07829fac5f10133e44de80f491d1f23bcc65cba072c3b374525/g' tensorflow/workspace.bzl \
     && echo | \
         CC_OPT_FLAGS=-march=native \
         PYTHON_BIN_PATH=/usr/bin/python \
