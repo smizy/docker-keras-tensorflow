@@ -54,6 +54,7 @@ RUN set -x \
         jemalloc \
         libc6-compat \
     && apk --no-cache add --virtual .builddeps.1 \
+        patch \
         perl \
         sed \
     && pip3 install wheel \
@@ -66,6 +67,8 @@ RUN set -x \
     && echo | \
         CC_OPT_FLAGS=-march=native \
         PYTHON_BIN_PATH=/usr/bin/python \
+        TF_NEED_MKL=0 \
+        TF_NEED_VERBS=0 \  
         TF_NEED_CUDA=0 \
         TF_NEED_GCP=0 \
         TF_NEED_JEMALLOC=0 \        
