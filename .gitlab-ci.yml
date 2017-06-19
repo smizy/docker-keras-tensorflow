@@ -45,6 +45,7 @@ image-build:
 #     - docker push smizy/keras:${TAG_MAJOR}
     - docker push smizy/keras:latest
     - docker logout
+    - apk --no-cache add curl
     - curl -X POST 'https://hooks.microbadger.com/images/smizy/keras/pyM26dwHzHStGaBNdc2xQpQI-EI='
 
 # image-test:
