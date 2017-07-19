@@ -36,7 +36,7 @@ image-build:
       --rm -t smizy/keras:${TAG} .
     - docker images | grep keras
 #    - docker push ${CI_REGISTRY}/smizy/keras:${TAG}
-    - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
+    - docker login -u $DOCKER_USER -p $DOCKER_PASS
     - docker tag smizy/keras:${TAG} smizy/keras
     - docker tag smizy/keras:${TAG} smizy/keras:${TAG_MINOR}
 #     - docker tag smizy/keras:${TAG} smizy/keras:${TAG_MAJOR}
